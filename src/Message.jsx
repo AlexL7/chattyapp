@@ -3,13 +3,12 @@ import React, {Component} from 'react';
 class Message extends Component {
   render() {
     console.log("Rendering <Message/>");
-
-    var arrOfMessages = this.props.messages;
+    console.log(this.props.message);
 
     return (
        <div className="message">
-         <span className="username">{arrOfMessages[0].username} </span>
-         <span className="content">I won't be impressed with technology until I can download food.</span>
+         <span className="username">{this.props.message.username}</span>
+         <span className="content">{this.props.message.content}</span>
        </div>
     );
   }
