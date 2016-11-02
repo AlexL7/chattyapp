@@ -23,9 +23,7 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
 
   ws.on('message', function(data, flags) {
-     let message = JSON.parse(data);
      wss.broadcast(message);
-    console.log(`User ${message.username} said ${message.content}`);
 });
 
 
