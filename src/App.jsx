@@ -25,7 +25,7 @@ class App extends Component {
   constructor(props){
     super (props);
     this.state = {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
         {
           username: "Bob",
@@ -56,16 +56,31 @@ class App extends Component {
     this.setState({messages: messages});
   }
 }
+//
+  newUserName = (event) => {
+    console.log("in newUserName");
+    let newUser = '';
+    if(event.charCode == 13){
+      newUser ={name: event.target.value};
+      if(event.target.value){
+        console.log("no entered");
+      }
+      this.setState({currentUser:newUser});
+      console.log('Username Updated to :', newUser);
+      const message = this.state.messages.concat(newMessage);
+      ws.send(JSON.stringify(newMessage));
+    }
+  }
 
-  onKeyPress(event){
+  newMessage = (event)=> {
     if(event.charCode==13){
       console.log(`Content entered => ${event.target.value}`);
       const newMessage = {username: this.state.currentUser.name,
                           content: event.target.value};
 
       ws.send(JSON.stringify(newMessage));
-      const message = this.state.messages.concat(newMessage);
-      this.setState({messages:message});
+      //const message = this.state.messages.concat(newMessage);
+      //this.setState({messages:message});
     }
   }
 
@@ -78,7 +93,8 @@ class App extends Component {
         </nav>
         <MessageList messages ={this.state.messages}/>
         <ChatBar currentUser={this.state.currentUser}
-                  newMessage ={this.onKeyPress.bind(this)}/>
+                  newMessage ={this.newMessage}
+                  newUserName ={this.newUserName} />
       </div>
     );
   }

@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 
 
-
+//
 class ChatBar extends Component {
 
   render() {
@@ -11,11 +11,11 @@ class ChatBar extends Component {
 
     return (
       <footer>
-       <input
-       id="username"
-       type="text"
-       placeholder="Your Name (Optional)"
-       value = {this.props.currentUser.name} />
+        <input
+        id="username"
+        type="text"
+        placeholder="Type your name and hit ENTER"
+        onKeyPress={this.props.newUserName} />
 
        <input
        id="new-message"
