@@ -23,6 +23,7 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
 
   ws.on('message', function(data, flags) {
+     let message = JSON.parse(data);
      wss.broadcast(message);
 });
 
@@ -38,5 +39,3 @@ wss.on('connection', (ws) => {
     client.send(JSON.stringify(data));
   });
 };
-
-
