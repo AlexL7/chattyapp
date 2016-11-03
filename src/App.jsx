@@ -58,17 +58,13 @@ class App extends Component {
 }
 //
   newUserName = (event) => {
-    console.log("in newUserName");
-    let newUser = '';
-    if(event.charCode == 13){
-      newUser ={name: event.target.value};
-      if(event.target.value){
-        console.log("no entered");
-      }
+    let newUser = 'Anonymous';
+    newUser ={name: event.target.value};
+    if(newUser.name.length > 1){
       this.setState({currentUser:newUser});
       console.log('Username Updated to :', newUser);
       const message = this.state.messages.concat(newMessage);
-      ws.send(JSON.stringify(newMessage));
+
     }
   }
 

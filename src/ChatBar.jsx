@@ -15,7 +15,7 @@ class ChatBar extends Component {
         id="username"
         type="text"
         placeholder="Type your name and hit ENTER"
-        onKeyPress={this.props.newUserName} />
+        onKeyUp={this.props.newUserName} />
 
        <input
        id="new-message"
