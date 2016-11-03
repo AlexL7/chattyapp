@@ -26,18 +26,8 @@ class App extends Component {
     super (props);
     this.state = {
       currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-
-        },
-        {
-          username: "Anonymous",
-
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        }
-      ]
+      messages: [],
+      messageSystem: undefined
     };
   }
 
@@ -46,10 +36,15 @@ class App extends Component {
     console.log("Simulating incoming message");
 
     ws.onmessage = (ev) => {
-    newMessage = ev.data;
+
+
+
+      const data = JSON.parse(ev.data);
+
+
+    newMessage = JSON.parse(ev.data);
     console.log(`Date recieved : ${newMessage}`);
      // Add a new message to the list of messages in the data store
-    newMessage = JSON.parse(newMessage);
     const messages = this.state.messages.concat(newMessage)
     // Update the state of the app component.
     // Calling setState will trigger a call to render() in App and all child components.
@@ -57,14 +52,28 @@ class App extends Component {
   }
 }
 //
+
+
+
+
+
   newUserName = (event) => {
     let newUser = 'Anonymous';
     newUser ={name: event.target.value};
-    if(newUser.name.length > 1){
-      this.setState({currentUser:newUser});
-      console.log('Username Updated to :', newUser);
-      const message = this.state.messages.concat(newMessage);
 
+
+
+    if(event.charCode==13){
+      let notification =  `${this.state.currentUser.name} changed their name to ${newUser.name}`;
+      const updateUser = {
+                           type:"incomingNotification",
+                           content: notification
+                              }
+
+       ws.send(JSON.stringify(updateUser));
+      this.setState({currentUser:newUser});
+      //console.log('Username Updated to :', newUser);
+      //const message = this.state.messages.concat(newMessage);
     }
   }
 
@@ -72,7 +81,8 @@ class App extends Component {
     if(event.charCode==13){
       console.log(`Content entered => ${event.target.value}`);
       const newMessage = {username: this.state.currentUser.name,
-                          content: event.target.value};
+                          content: event.target.value,
+                          type:"incomingMessage"};
 
       ws.send(JSON.stringify(newMessage));
       //const message = this.state.messages.concat(newMessage);
