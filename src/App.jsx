@@ -27,7 +27,8 @@ class App extends Component {
     this.state = {
       currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
-      messageSystem: undefined
+      messageSystem: undefined,
+      onlineCount: 0
     };
   }
 
@@ -39,7 +40,8 @@ class App extends Component {
 
 
 
-      const data = JSON.parse(ev.data);
+    const data = JSON.parse(ev.data);
+    console.log(data);
 
 
     newMessage = JSON.parse(ev.data);
@@ -48,7 +50,8 @@ class App extends Component {
     const messages = this.state.messages.concat(newMessage)
     // Update the state of the app component.
     // Calling setState will trigger a call to render() in App and all child components.
-    this.setState({messages: messages});
+    this.setState({messages: messages,
+      onlineCount:data.onlineCount});
   }
 }
 //

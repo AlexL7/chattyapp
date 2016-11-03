@@ -29,6 +29,9 @@ wss.on('connection', (ws) => {
 
 
 
+
+
+
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => console.log('Client disconnected'));
 });
@@ -39,10 +42,10 @@ wss.on('connection', (ws) => {
 
    switch(data.type) {
       case "incomingMessage":
-           console.log("incominMessage")// handle incoming message
+           //console.log("incominMessage")// handle incoming message
         break;
       case "incomingNotification":
-          console.log("incomingNotification")// handle incoming notification
+          //console.log("incomingNotification")// handle incoming notification
         break;
       default:
         // show an error in the console if the message type is unknown
@@ -50,8 +53,8 @@ wss.on('connection', (ws) => {
 
 
   let changeType = data;
-  console.log(data);
   changeType.type = "postMessage";
+  changeType.onlineCount = wss.clients.length;
   wss.clients.forEach(function (client) {
     client.send(JSON.stringify(data));
   });
