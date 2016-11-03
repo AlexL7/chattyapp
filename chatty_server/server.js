@@ -35,6 +35,23 @@ wss.on('connection', (ws) => {
 
   wss.broadcast = function (data) {
   console.log("Broadcasting to clients");
+
+
+   switch(data.type) {
+      case "incomingMessage":
+           console.log("incominMessage")// handle incoming message
+        break;
+      case "incomingNotification":
+          console.log("incomingNotification")// handle incoming notification
+        break;
+      default:
+        // show an error in the console if the message type is unknown
+        throw new Error("Unknown event type " + data.type);}
+
+
+  let changeType = data;
+  console.log(data);
+  changeType.type = "postMessage";
   wss.clients.forEach(function (client) {
     client.send(JSON.stringify(data));
   });
