@@ -10,23 +10,26 @@ class MessageList extends Component {
     const arr0fMessages = this.props.messages;;
     let count = 1;
 
-    arr0fMessages.map((obj)=>{
+    arr0fMessages.map((obj) => {
       count = obj.onlineCount
     });
 
     return (
-      <div id="message-list">
-      <div id="onlineUsers">Users Online : {count}</div>
-        {
-          arr0fMessages.map((obj, index)=> {
-            return (<Message key ={index} message = {this.props.messages[index]}/>)
-        })}
+      <div id = "message-list" >
+        <div id = "onlineUsers" >
+          Users Online: {count}
+        </div> {
+          arr0fMessages.map((obj, index) => {
+              return (
+                <Message key = {index}
+                     message = {this.props.messages[index]}/>)
+              })
+          }
 
-       <div className="message system">
-
-       </div>
+          <div className = "message system" >
+        </div>
       </div>
-    );
+      );
+    }
   }
-}
-export default MessageList;
+  export default MessageList;
