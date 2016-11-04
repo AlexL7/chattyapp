@@ -11,13 +11,8 @@ let newMessage ="";
 
   ws.onopen = function(ev){
   console.log("Connected to server!");
-};
 
-ws.onmessage = function(ev) {
-   newMessage = ev.data;
-   console.log("in onmessage with message below");
-  console.log(newMessage);
-}
+};
 
 
 class App extends Component {
@@ -32,9 +27,17 @@ class App extends Component {
     };
   }
 
+
+
+
    componentDidMount (){
     console.log("componentDidMount <App />");
     console.log("Simulating incoming message");
+
+    ws.onclients = (ev)  =>{
+      console.on ('in on clients')
+      console.log(JSON.parse(ev.data));
+    }
 
     ws.onmessage = (ev) => {
 

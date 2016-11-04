@@ -22,6 +22,14 @@ const wss = new SocketServer({ server });
 wss.on('connection', (ws) => {
   console.log('Client connected');
 
+  let onlineUsers = wss.clients.length;
+  wss.broadcast({type:"onlineUsers",
+                 onlineUser: onlineUsers});
+
+  ws.on('clients',function(data,flags){
+    onlineUsers = JSON.parse(data);
+  })
+
   ws.on('message', function(data, flags) {
      let message = JSON.parse(data);
      wss.broadcast(message);
@@ -33,11 +41,22 @@ wss.on('connection', (ws) => {
 
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected');
+      let onlineUsers = wss.clients.length;
+  wss.broadcast({type:"onlineUsers",
+                 onlineUser: onlineUsers});
+
+
+
+  });
+
+
 });
 
   wss.broadcast = function (data) {
   console.log("Broadcasting to clients");
+  console.log(data)
 
 
    switch(data.type) {
@@ -46,6 +65,9 @@ wss.on('connection', (ws) => {
         break;
       case "incomingNotification":
           //console.log("incomingNotification")// handle incoming notification
+        break;
+      case "onlineUsers":
+
         break;
       default:
         // show an error in the console if the message type is unknown
